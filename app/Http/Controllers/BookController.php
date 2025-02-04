@@ -13,13 +13,8 @@ class BookController extends Controller
      */
     public function index(Request $request): View
     {
-        $books = Book::query();
-
-        if ($request->filled('title')) {
-            $books->title($request->input('title'));
-        }
-
-        return view('books.index', ['books' => $books->get()]);
+        $books = Book::filter($request->query())->get();
+        return view('books.index', compact('books'));
     }
 
 
@@ -42,9 +37,9 @@ class BookController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Book $book)
+    public function show(Book $book): View
     {
-        //
+        return view('books.show', compact('book'));
     }
 
     /**
