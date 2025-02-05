@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\View\View;
 
 class BookController extends Controller
@@ -13,7 +14,10 @@ class BookController extends Controller
      */
     public function index(Request $request): View
     {
-        $books = Book::filter($request->query())->get();
+        $filters = $request->query();
+
+        $books = Book::filter($filters)->get();
+
         return view('books.index', compact('books'));
     }
 
